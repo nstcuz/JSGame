@@ -1,15 +1,9 @@
-
-
-
 // HTML elements
 // const gameBoard = document.getElementById('game-board');
 const fullCard = document.querySelectorAll('.card');
 const startButton = document.getElementById('start-button');
 const cardFront = document.querySelectorAll('.card-front');
 const cardBack = document.querySelectorAll('.card-back');
-
-// console.log(cardFront);
-
 
 class Card {
     constructor(path, alt, number) {
@@ -20,23 +14,23 @@ class Card {
 };
 
 const cards = [ 
-    new Card(`./sprites/Sprite-0001-green-export.png`, 'green goomb', 0),
-    new Card(`./sprites/Sprite-0001-green-export.png`, 'green goomb', 0),
+    new Card(`./sprites/Sprite-0001-green-export.png`, 'green goomb', 1),
+    new Card(`./sprites/Sprite-0001-green-export.png`, 'green goomb', 1),
 
-    new Card(`./sprites/Sprite-0001-lightorange-export.png`, 'light orange goomb', 1),
-    new Card(`./sprites/Sprite-0001-lightorange-export.png`, 'light orange goomb', 1),
+    new Card(`./sprites/Sprite-0001-lightorange-export.png`, 'light orange goomb', 2),
+    new Card(`./sprites/Sprite-0001-lightorange-export.png`, 'light orange goomb', 2),
 
-    new Card(`./sprites/Sprite-0001-lightpink-export.png`, 'light pink goomb', 2),
-    new Card(`./sprites/Sprite-0001-lightpink-export.png`, 'light pink goomb', 2), 
+    new Card(`./sprites/Sprite-0001-lightpink-export.png`, 'light pink goomb', 3),
+    new Card(`./sprites/Sprite-0001-lightpink-export.png`, 'light pink goomb', 3), 
 
-    new Card(`./sprites/Sprite-0001-purple-export.png`, `purple goomb` ,3),
-    new Card(`./sprites/Sprite-0001-purple-export.png`, `purple goomb`, 3),
+    new Card(`./sprites/Sprite-0001-purple-export.png`, `purple goomb` ,4),
+    new Card(`./sprites/Sprite-0001-purple-export.png`, `purple goomb`, 4),
 
-    new Card(`./sprites/Sprite-0001-red-export.png`, `red goomb`, 4),
-    new Card(`./sprites/Sprite-0001-red-export.png`, `red goomb`, 4),
+    new Card(`./sprites/Sprite-0001-red-export.png`, `red goomb`, 5),
+    new Card(`./sprites/Sprite-0001-red-export.png`, `red goomb`, 5),
 
-    new Card(`./sprites/Sprite-0001-lightblue-export.png`,`lightblue goomb`, 5),
-    new Card(`./sprites/Sprite-0001-lightblue-export.png`,`lightblue goomb`, 5)
+    new Card(`./sprites/Sprite-0001-lightblue-export.png`,`lightblue goomb`, 6),
+    new Card(`./sprites/Sprite-0001-lightblue-export.png`,`lightblue goomb`, 6)
 ];
 
     // shuffle cards
@@ -50,24 +44,24 @@ function shuffleCards(cards){
     }
     return cards;
 };
-// const shuffledCards = shuffleCards(cards);
 // console.log(shuffledCards);
 
-    // init game
+// idk how im gonna lay this out tbh
+//but for now heres the start butotn
 startButton.addEventListener('click', () => {
     console.log('game started!');
     shuffleCards(cards);
     // console.log(cards);
+
     // card reveal
     startCardReveal();
 });
 
-
 //array to hold the value that we will be using to check if matched
 let isMatched = [];
-//stores index so we can access the card number in other functions
-let cardIndex1;
-let cardIndex2;
+//stores index so we can access the card number in other functions THIS IS CHANGED NOW 
+let card1;
+let card2;
 
 //lets us know if its first card or second card that is being clicked
 let cardRevealClickIndex = 0;
@@ -76,64 +70,55 @@ let cardRevealClickIndex = 0;
 //event listener applied forEach() to all cards when game is started
 function startCardReveal(){
     cardBack.forEach(function(cardBack, i){
+            // target the front side of the card that was clicked and display
+            const cardFront = cardBack.previousElementSibling;
+            // set card stylings (hide back, display front). Then apply src & alt to the front
+            cardFront.src = cards[i].path;
+            cardFront.alt = cards[i].alt;
+
         cardBack.addEventListener('click', (e) => {
             // target the card that was clicked and hide
             e.currentTarget.style.display = 'none';
             
-            // target the front side of the card that was clicked and display
-            const cardFront = e.currentTarget.previousElementSibling;
-            
             // set card stylings (hide back, display front). Then apply src & alt to the front
             cardFront.style.display = 'block';
-            updateSrc = cardFront.src = cards[i].path;
-            cardFront.alt = cards[i].alt;
-            
-            // push the updated source into an array so later we can check if its a match
-            isMatched.push(updateSrc);
             
             // this writes the index number to either cardIndex1 or cardIndex2 so that we can target the specific card in another function
             if(cardRevealClickIndex === 0){
-                cardIndex1 = cards[i].number;
-                console.log('first card: ' + cardRevealClickIndex)
+                card1 = cardFront;
                 cardRevealClickIndex++;
+                isMatched.push(card1);
             } else {
-                cardIndex2 = cards[i].number;
-                console.log('second card: ' + cardRevealClickIndex)
+                card2 = cardFront;
                 // cardRevealClickIndex = 0;
+                isMatched.push(card2);
             }
-            checkIfReadyForMatch(cardIndex1, cardIndex2);
+            checkIfReadyForMatch(card1, card2);
         });
     });
 };
 
 // lets check and see if there is 2 items in the array to match
 // if there is we will call the function to see if cards are a pair
-function checkIfReadyForMatch(cardIndex1, cardIndex2){
+function checkIfReadyForMatch(card1, card2){
     if(isMatched.length === 2){
-        confirmMatch(cardIndex1, cardIndex2);
+        confirmMatch(card1, card2);
     };
 };
 
 // check if the first card matches the second card
 // if not reset styles && erase array contents
-function confirmMatch(cardIndex1, cardIndex2){
-    console.log('confirm match:', cardIndex1, 'and', cardIndex2);
-    if(cardIndex1 !== cardIndex2){
-
-        // set stylings for card1 
-        console.log(cardBack[cardIndex1])
-        console.log(cardBack[cardIndex1].src)
-        cardFront[cardIndex1].style.display = 'none';
-        cardBack[cardIndex1].style.display = 'block';
-        console.log(cardBack[cardIndex1].style.display);
-
+function confirmMatch(card1, card2){
+    if(card1.src !== card2.src){
+        // set stylings for card1
+        card1.style.display = 'none';
+        card1.nextElementSibling.style.display = 'block';
         // set stylings for card2
-        cardFront[cardIndex2].style.display = 'none';
-        cardBack[cardIndex2].style.display = 'block';
+        card2.style.display = 'none';
+        card2.nextElementSibling.style.display = 'block';
     } else {
-        console.log(cards[cardIndex1]);
         isMatched.length = 0;
-        console.log(isMatched);
+        // console.log(isMatched);
     };
     cardRevealClickIndex = 0; 
     isMatched = [];
