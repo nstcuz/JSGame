@@ -1,5 +1,5 @@
 :root {
-    --background-color: #efd9ce;
+    --background-color: #ccdbfd;
     --primary-color: #957fef;
     --primary-accent: #7161ef;
     --secondary-color: #dec0f1;
@@ -13,14 +13,112 @@
 }
 
 body {
-    background-color: var(--background-color);
+    position: relative;
+    margin: 0;
+    padding: 0;
+    background-image: url(./sprites/page-background.png);
+    z-index: -50;
 }
+
+
+
+/* Header */
 
 header {
     margin: 8px;
     background-color: var(--secondary-color);
     height: 4rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 
     border: 2px solid var(--secondary-accent);
     border-radius: 64px;
+
+}
+
+/* h1{
+
+} */
+
+h2 {
+    text-align: center;
+}
+
+
+ /* Main */
+
+ main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+ section:first-child {
+    height: 90vh;
+    display: grid;
+    grid-template-columns: 24rem 1fr;
+    gap: 1rem;
+ }
+
+aside {
+    padding: 1rem;
+    text-align: center;
+
+    background: rgba( 255, 255, 255, 0.6 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 2px solid var(--secondary-accent);
+}
+
+.image-aside-container {
+    border: 2px solid var(--secondary-accent);
+    border-radius: 8px;
+    width: 180px;
+    padding: 8px;
+ 
+    margin: 0 auto;
+}
+
+#start-button {
+    margin: 0 auto;
+    justify-self: center;
+    align-self: center;
+}
+
+#game-board {
+    display: flex;
+    justify-content: center;
+    max-width: 100rem;
+
+    background: rgba( 255, 255, 255, 0.25 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 2px solid var(--secondary-accent);
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 80rem;
+}
+
+.card-front { 
+    display: none;
+    width: 16rem;
+    margin: 1rem;
+    /* padding: -3rem -1rem; */
+}
+
+.card-back {
+    width: 16rem;
+    margin: 1rem;
+    border: 3px solid white;
+    border-radius: 16px;
 }
