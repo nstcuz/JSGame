@@ -5,9 +5,14 @@ const startButton = document.getElementById('start-button');
 const cardFront = document.querySelectorAll('.card-front');
 const cardBack = document.querySelectorAll('.card-back');
 const restartGameButton = document.getElementById('restartGame');
-const endGamePopUp= document.getElementById('popUp');
-// let music = document.getElementById("backgroundAudio");
+const endGamePopUp = document.getElementById('popUp');
+const music = document.getElementById("backgroundAudio");
 
+// count the amount of matches
+// let matches = 0;
+
+// count the number of turns the user has used
+let turns = 0;
 //array to hold the value that we will be using to check if matched
 let checkIfMatched = [];
 // array to count how many successful matches
@@ -15,6 +20,8 @@ let successfulMatch = [];
 // will hold the value of the cardFront for the selected cards
 let card1;
 let card2;
+// a card lock so they cards dont reveal when 2 are being matched
+let cardLock = false;
 //lets us know if its first card or second card that is being clicked
 let cardRevealClickIndex = 0;
 
@@ -63,43 +70,45 @@ function shuffleCards(cards){
 
 // call the start button
 start();
-
-//start butotn
+//start button
 function start(){
     startButton.addEventListener('click', () => {
-    console.log('game started!');
-    musicTime();
-    shuffleCards(cards);
-    // card reveal => check if ready for match => check if match
-    startCardReveal();
-});
+        console.log('game started!');
+        musicTime();
+        shuffleCards(cards);
+        // card reveal => check if ready for match => check if match
+        startCardReveal();
+    });
 };
 
 // reveal card when you click on the specific card
 function startCardReveal(){
     cardBack.forEach(function(cardBack, i){
-            // target the front side of the card that was clicked and display
-            const cardFront = cardBack.previousElementSibling;
-            // apply src & alt to the card front
-            cardFront.src = cards[i].path;
-            cardFront.alt = cards[i].alt;
-
+        // target the front side of the card that was clicked and display
+        const cardFront = cardBack.previousElementSibling;
+        // apply src & alt to the card front
+        cardFront.src = cards[i].path;
+        cardFront.alt = cards[i].alt;
         cardBack.addEventListener('click', (e) => {
-            // target the card that was clicked and hide it
-            e.currentTarget.style.display = 'none';
-            // set card stylings (display front).
-            cardFront.style.display = 'block';
-            // keeps track if its card1 or card2 for matching
-            if(cardRevealClickIndex === 0){
-                card1 = cardFront;
-                cardRevealClickIndex++;
-                checkIfMatched.push(card1);
-            } else {
-                card2 = cardFront;
-                checkIfMatched.push(card2);
-            }
-            //confirms 2 cards have been clicked
-            checkIfReadyForMatch(card1, card2);
+        if(cardLock){
+            return;
+        }
+        // target the card that was clicked and hide it
+        e.currentTarget.style.display = 'none';
+        // set card stylings (display front).
+        cardFront.style.display = 'block';
+        // keeps track if its card1 or card2 for matching
+        if(cardRevealClickIndex === 0){
+            card1 = cardFront;
+            cardRevealClickIndex++;
+            checkIfMatched.push(card1);
+        } else {
+            card2 = cardFront;
+            checkIfMatched.push(card2);
+            cardLock = true;
+        }
+        //confirms 2 cards have been clicked
+        checkIfReadyForMatch(card1, card2);
         });
     });
 };
@@ -114,6 +123,7 @@ function checkIfReadyForMatch(card1, card2){
 
 // check if the first card matches the second card
 function confirmMatch(card1, card2){
+    turns++;
     if(card1.src !== card2.src){
         setTimeout(function(){
         // set stylings for card1
@@ -122,9 +132,14 @@ function confirmMatch(card1, card2){
             // set stylings for card2
             card2.style.display = 'none';
             card2.nextElementSibling.style.display = 'block';
+            updateScore();
+            cardLock = false;
         }, 750);
     } else {
         successfulMatch.push('match');
+        updateScore();
+        // matches++;
+        cardLock = false;
     };
     // reset index to check if 2 cards have been clicked
     cardRevealClickIndex = 0; 
@@ -134,6 +149,14 @@ function confirmMatch(card1, card2){
     if(successfulMatch.length === 6){
         allMatched()
     };
+};
+
+function updateScore() {
+    const correctMatchesText = document.querySelector('#correct-matches');
+    const turnsText = document.querySelector('#turns');
+
+    correctMatchesText.textContent = `Matches: ${successfulMatch.length}`;
+    turnsText.textContent = `Turns: ${turns}`;
 };
 
 function allMatched(){
@@ -157,10 +180,13 @@ function showPopup() {
 };
 
 function gameReset(){
-    //empty arrays and index
+    //empty arrays and reset indices
     successfulMatch = [];
     checkIfMatched = [];
     cardRevealClickIndex = 0;
+    // reset html turns && matches
+    turns = 0;
+    updateScore();
 
     //reset html
     cardBack.forEach( el => {
@@ -176,13 +202,18 @@ function gameReset(){
 restartGameButton.addEventListener('click', () => {
     gameReset();
     start();
+    musicTime();
 });
 
 //init music
 function musicTime(){
-    if(successfulMatch.length === 6){
         let music = document.getElementById("backgroundAudio");
         music.play();
+        music.volume = 0.3
+    if(successfulMatch.length === 6){
+        setInterval(function(){
+            music.volume--
+        },100)
         music.volume = 0.25;
     };
 };

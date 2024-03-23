@@ -1,5 +1,5 @@
 :root {
-    --background-color: #ccdbfd;
+    --button-color: #f9f5f4;
     --primary-color: #957fef;
     --primary-accent: #7161ef;
     --secondary-color: #dec0f1;
@@ -10,41 +10,39 @@
 
 * {
     box-sizing: border-box;
+    font-family: "Jetbrains Mono";
+    font-size: 18px;
 }
 
 body {
+    height: 80vh;
     position: relative;
     margin: 0;
     padding: 0;
     background-image: url(./sprites/page-background.png);
-    z-index: -50;
 }
 
 
 
 /* Header */
-
 header {
-    margin: 8px;
+    margin: 0.5rem auto;
+    margin-top: 8px;
     background-color: var(--secondary-color);
-    height: 4rem;
+    height: 3rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
 
     border: 2px solid var(--secondary-accent);
     border-radius: 64px;
-
+    width: 110rem;
 }
-
-/* h1{
-
-} */
 
 h2 {
     text-align: center;
+    font-size: 1.75rem;
 }
-
 
  /* Main */
 
@@ -118,6 +116,7 @@ aside {
 
 .card-back {
     width: 16rem;
+    height: 375px;
     margin: 1rem;
     border: 3px solid white;
     border-radius: 16px;
@@ -130,13 +129,25 @@ aside {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 24px;
-    /* border: 2px solid black; */
-    /* border-radius: 5px; */
-    z-index: 99;
+    height: 8rem;
+    background-color: var(--secondary-color);
+    padding: 8px 24px 24px 24px;
+    border: 2px solid var(--secondary-accent);
+    border-radius: 8px;
 }
 
-/* #popUp p {
+button{
+    padding: 0.5rem 1rem;
+    background-color: var(--button-color);
+    border: 1px solid var(--secondary-accent);
+    box-shadow: 2px 1px 1px var(--primary-accent);
+    border-radius: 8px;
+    width: 160px;
+}
 
-} */
+#restartGame{
+    position: fixed;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
     <title>Goomb</title>
 </head>
 <body>
    <header> 
         <h1>Goomb Card Game</h1>
         <div>
-            <span>Turns: </span>
-            <span>Matches: </span>
+            <span id="turns">Turns: 0</span>
+            <span id="correct-matches">Matches: 0</span>
         </div>
    </header> 
    <main>
@@ -91,7 +94,7 @@
       </section>
     </main>
     <section id="popUp">
-        <p>You have matched all the Goombs! They're now free to go off on their adventures to collect more materials for the colony. Would like to help them out another time?</p>
+        <p>You have matched all the Goombs! They're now free to go off on their adventures to collect more materials for the colony. Would like to help them out again?</p>
         <button id="restartGame">Play Again?</button>
     </section>
     <script src="script.js"></script>
