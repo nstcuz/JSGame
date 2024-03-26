@@ -25,7 +25,6 @@ let cardLock = false;
 //lets us know if its first card or second card that is being clicked
 let cardRevealClickIndex = 0;
 
-
 //create card object
 class Card {
     constructor(path, alt, number) {

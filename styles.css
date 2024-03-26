@@ -22,12 +22,10 @@ body {
     background-image: url(./sprites/page-background.png);
 }
 
-
-
 /* Header */
 header {
     margin: 0.5rem auto;
-    margin-top: 8px;
+    margin-top: 4px;
     background-color: var(--secondary-color);
     height: 3rem;
     display: flex;
@@ -111,7 +109,7 @@ aside {
     display: none;
     width: 16rem;
     margin: 1rem;
-    /* padding: -3rem -1rem; */
+    cursor: pointer;
 }
 
 .card-back {
@@ -120,6 +118,7 @@ aside {
     margin: 1rem;
     border: 3px solid white;
     border-radius: 16px;
+    cursor: pointer;
 }
 
 /* end game popup */
@@ -143,6 +142,7 @@ button{
     box-shadow: 2px 1px 1px var(--primary-accent);
     border-radius: 8px;
     width: 160px;
+    cursor: pointer;
 }
 
 #restartGame{
